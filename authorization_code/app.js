@@ -9,6 +9,7 @@
 
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
+var https = require('https');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -145,11 +146,43 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-app.post('/search', (req, res) => {
+app.post('/search', (req, response) => {
   console.log(req);
   console.log("initiating a search");
   console.log(`access_token : ${access_token}`);
-  res.send("Hello World");
+  const options = 
+  {
+    headers:
+    {
+      'Accept': 'application/json',
+      'Content-Type' : 'application/json',
+      'Authorization': 'Bearer BQDih-etW_FoGaovfxFsXCowX6ANn6AxhSYODW5uDaRNArEEJYXmbnrK5yhd60VrFVQfBjNkxDx2n8_pN6RzxAnuyy2YCUf9w3QISXAM9fHtf0QxLx_3p0kvs9Sa28_rhfGZrgpru44Y0tDA0em-KKN6UKRchNts'
+    }
+  
+
+  }
+  
+  https.get('https://api.spotify.com/v1/tracks?ids=7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B', options, (res) =>
+  {
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+        response.send(parsedData);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+    console.log(res);
+    
+
+  });
+  
+
+  
 });
 
 
