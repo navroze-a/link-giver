@@ -9,6 +9,7 @@
 
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
+var https = require('https');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -145,11 +146,63 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-app.post('/search', (req, res) => {
+app.post('/search', (req, response) => {
   console.log(req);
   console.log("initiating a search");
   console.log(`access_token : ${access_token}`);
-  res.send("Hello World");
+  const options = 
+  {
+    headers:
+    {
+      'Accept': 'application/json',
+      'Content-Type' : 'application/json',
+      'Authorization': 'Bearer BQDqO2-vRF92Ct2A30NQ81TJVdWVZZPNGtOCrjziXuMJZw8HMxtp52MxHPpVZej9LU8_tehzC05Zum3E592blV0ik0zehdFNjsW7qmdc-dVMMMbu6Aea1ck6xXj8lZE6EsRzVnKcAoqhePLnVBwiRHpInJvGj9_b'
+    }
+  
+
+  }
+
+  
+  https.get('https://api.spotify.com/v1/tracks?ids=7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B', options, (res) =>
+  {
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+        response.send(parsedData);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+    
+    
+
+  });
+
+  https.get('https://api.spotify.com/v1/audio-features?ids=4JpKVNYnVcJ8tuMKjAj50A,2NRANZE9UCmPAS5XVbXL40,24JygzOLM0EmRQeGtFcIcG', options, (res) =>
+  {
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+        response.send(parsedData);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+    console.log(res);
+    
+
+  });
+  
+
+  
 });
 
 
