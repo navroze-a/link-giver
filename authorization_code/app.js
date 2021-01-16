@@ -156,13 +156,33 @@ app.post('/search', (req, response) => {
     {
       'Accept': 'application/json',
       'Content-Type' : 'application/json',
-      'Authorization': 'Bearer BQDih-etW_FoGaovfxFsXCowX6ANn6AxhSYODW5uDaRNArEEJYXmbnrK5yhd60VrFVQfBjNkxDx2n8_pN6RzxAnuyy2YCUf9w3QISXAM9fHtf0QxLx_3p0kvs9Sa28_rhfGZrgpru44Y0tDA0em-KKN6UKRchNts'
+      'Authorization': 'Bearer BQDqO2-vRF92Ct2A30NQ81TJVdWVZZPNGtOCrjziXuMJZw8HMxtp52MxHPpVZej9LU8_tehzC05Zum3E592blV0ik0zehdFNjsW7qmdc-dVMMMbu6Aea1ck6xXj8lZE6EsRzVnKcAoqhePLnVBwiRHpInJvGj9_b'
     }
   
 
   }
+
   
   https.get('https://api.spotify.com/v1/tracks?ids=7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B', options, (res) =>
+  {
+    res.setEncoding('utf8');
+    let rawData = '';
+    res.on('data', (chunk) => { rawData += chunk; });
+    res.on('end', () => {
+      try {
+        const parsedData = JSON.parse(rawData);
+        console.log(parsedData);
+        response.send(parsedData);
+      } catch (e) {
+        console.error(e.message);
+      }
+    });
+    
+    
+
+  });
+
+  https.get('https://api.spotify.com/v1/audio-features?ids=4JpKVNYnVcJ8tuMKjAj50A,2NRANZE9UCmPAS5XVbXL40,24JygzOLM0EmRQeGtFcIcG', options, (res) =>
   {
     res.setEncoding('utf8');
     let rawData = '';
