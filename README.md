@@ -7,7 +7,7 @@ What it does:
 
 It uses the Spotify Web API to authenticate users, who then are able to put in the name of any song on Spotify in the search bar, to then open a link based on a calculated energy/happiness matrix. 
 
-How we built it:
+How we built it: 
 
 We built this website using Javascript, HTML, and CSS. The data is retrieved from Spotify’s API endpoints, including the Search endpoint, and the Audio Features Objects. We also created a prototype of the website on Figma which showcases the future of Linkify. 
 
