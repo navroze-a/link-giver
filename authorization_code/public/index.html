@@ -4,39 +4,86 @@
 <html>
 
 <head>
-  <title>Example of the Authorization Code flow with Spotify</title>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <style type="text/css">
+  <title>Linkify</title>
+  <link rel="stylesheet" href="./reset.css">
+  <link rel="stylesheet" href="./welcome.css">
+  <!-- <style type="text/css">
     #login,
     #loggedin {
       display: none;
     }
 
-    .text-overflow {
+     .text-overflow {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 500px;
-    }
-  </style>
+    } 
+  </style> -->
 </head>
 
 <body>
+  <div class='background'>
+    <img src="./imgs/bg.png" alt="Blobs">
+  </div>
+  <nav class='navBar'>
+    <img class='logo' src="./imgs/logo.png" alt="linkify logo">
+    <a class='explore' href="">Explore</a>
+    <a class='about' href="">About</a>
+  </nav>
   <div class="container">
     <div id="login">
-      <h1>This is an example of the Authorization Code flow</h1>
-      <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+      <p class='thicc'>PICK A SONG, </p>
+      <p class='thicc'>GET A LINK.</p>
+      <p id='pthin0' class='thin'>Have you ever been so bored you’ve scoured the internet?</p>
+      <p id='pthin1' class='thin'>Let us guide you based on your music taste!</p>
+      <span id='loginBg'><a href='/login'>Log in with Spotify</a></span>
     </div>
     <div id="loggedin">
-      <div id="user-profile">
-      </div>
-      <div id="oauth">
-      </div>
-      <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+      <form action="/search" method='post'>
+        <input class='search' type="text" placeholder="Search for any song">
+        <input class='submit' type="submit" value="Let's Go!">
+      </form>
     </div>
   </div>
 
-  <script id="user-profile-template" type="text/x-handlebars-template">
+  <script>
+
+    // const callBackend = () => {
+    //   window.location.href = '/login';
+    //   setTimeout(() => {
+    //     console.log(this.responseText);
+    //     window.location.href = './track.html';
+    //   }, 3000);
+      // var xhr = new XMLHttpRequest();
+      // xhr.withCredentials = true;
+
+      // xhr.addEventListener("readystatechange", function () {
+      //   if (this.readyState === 4) {
+      //     setTimeout(() => {
+      //       console.log(this.responseText);
+      //       window.location.href = './track.html';
+      //     }, 3000);
+      //   }
+      // });
+
+      // xhr.open("GET", "/login");
+
+      // xhr.send();
+
+    //}
+  </script>
+  <!-- <div id="login">
+      <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+    </div> -->
+
+  <!-- <div id="user-profile">
+      </div>
+      <div id="oauth">
+      </div> -->
+  <!-- <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button> -->
+
+  <!-- <script id="user-profile-template" type="text/x-handlebars-template">
       <h1>Logged in as {{display_name}}</h1>
       <div class="media">
         <div class="pull-left">
@@ -54,19 +101,16 @@
           </dl>
         </div>
       </div>
-    </script>
+    </script> -->
 
-    <div class="topnav">
-      <a class="active" href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+  <div class="topnav">
 
-      <form action="/search" method="post">  
-        <input type="text" placeholder="Search.." name = "search">
-        <input type="submit" value="Search!">
-      </form>
+    <!-- <form action="/search" method="post">
+      <input type="text" placeholder="Search.." name="search">
+      <input type="submit" value="Search!">
+    </form> -->
 
-    </div>
+  </div>
 
   <script id="oauth-template" type="text/x-handlebars-template">
       <h2>oAuth info</h2>
@@ -156,5 +200,5 @@
     })();
   </script>
 </body>
-</html>
 
+</html>
