@@ -1,4 +1,4 @@
-# SpotifyAPITesting
+# Linkify
 Inspiration
 There is no doubt that quarantine had everyone bored out of their minds, from endless hours spent scrolling through Tiktok, to switching between the same 3 apps, it was time for a change. We know that Spotify’s web API has a bunch of properties that have been the route of multiple apps which usually use the data to produce more Spotify-based results. We wanted to develop a website which uses the Spotify API data, and after analyses, produces a recommended external link for the user. 
 
