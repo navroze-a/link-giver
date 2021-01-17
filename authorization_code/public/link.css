@@ -54,30 +54,29 @@
     top: 8vh;
 }
 
-#login {
-    height: 100%;
+#result {
     width: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr 1.2fr 0.5fr 1fr 1fr;
+    grid-template-rows: repeat(6, 1fr);
     position: absolute;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
 }
 
-#login p, .submit, input {
+#result p, .submit, input {
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
 }
 
 .thicc {
-    font-size: 80px;
+    font-size: 60px;
     font-weight: bold;
 }
 
 .medium {
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 450;
 }
 
@@ -85,7 +84,7 @@
     font-size: 25px;
 }
 
-#login a {
+#result a {
     font-family: 'Karla', sans-serif;
     font-size: 25px;
     text-decoration: none;
@@ -93,7 +92,7 @@
     cursor: pointer;
 }
 
-#login span :hover {
+#result span :hover {
     transform: scale(1.2);
 }
 
@@ -156,13 +155,7 @@ input {
     transform: scale(1.1);
 }
 
-#loggedin {
-    position: absolute;
-    top: 80%;
-    width: 50%;
-    height: 20%;
-}
-
-#pthin0 {
-    padding-top: 10%;
+#redirect {
+    height: 40%;
+    width: 80%;
 }

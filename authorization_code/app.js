@@ -8,7 +8,7 @@
  */
 
 const fetch = require('node-fetch');
- var express = require('express'); // Express web server framework
+var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
@@ -26,7 +26,7 @@ var access_token;
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-var generateRandomString = function(length) {
+var generateRandomString = function (length) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -41,11 +41,11 @@ var stateKey = 'spotify_auth_state';
 var app = express();
 
 app.use(express.static(__dirname + '/public'))
-   .use(cors())
-   .use(cookieParser());
+  .use(cors())
+  .use(cookieParser());
 
-app.get('/login', function(req, res) {
-
+app.get('/login', function (req, res) {
+  console.log('success');
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -61,11 +61,11 @@ app.get('/login', function(req, res) {
     }));
 });
 
-app.get('/callback', function(req, res) {
+app.get('/callback', function (req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
-
+  console.log('successCallback');
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -90,7 +90,7 @@ app.get('/callback', function(req, res) {
       json: true
     };
 
-    request.post(authOptions, function(error, response, body) {
+    request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
 
         access_token = body.access_token;
@@ -103,7 +103,7 @@ app.get('/callback', function(req, res) {
         };
 
         // use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
+        request.get(options, function (error, response, body) {
           console.log(body);
         });
 
@@ -123,7 +123,7 @@ app.get('/callback', function(req, res) {
   }
 });
 
-app.get('/refresh_token', function(req, res) {
+app.get('/refresh_token', function (req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
@@ -137,7 +137,7 @@ app.get('/refresh_token', function(req, res) {
     json: true
   };
 
-  request.post(authOptions, function(error, response, body) {
+  request.post(authOptions, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
       res.send({
@@ -151,7 +151,7 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/search', async(req, res) => {
+app.post('/search', async (req, res) => {
   //console.log(req);
   console.log("initiating a search");
   console.log(`access_token : ${access_token}`);
@@ -162,21 +162,21 @@ app.post('/search', async(req, res) => {
   url.searchParams.append('type', 'track');
   url.searchParams.append('limit', 1);
 
- const topTrack = await fetch(url.href, {
-        method: 'get',
-        headers: { 'Content-Type': 'application/json' , 'Authorization' : 'Bearer ' + access_token},
-    })
+  const topTrack = await fetch(url.href, {
+    method: 'get',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + access_token },
+  })
 
   const topTrackJson = await topTrack.json();
   console.log("id: " + topTrackJson.tracks.items[0].id);
   console.log("name:" + topTrackJson.tracks.items[0].name);
   let id = topTrackJson.tracks.items[0].id;
- 
+
   let happy = await metrics(id, access_token, "happiness");
   let speed = await metrics(id, access_token, "speed");
 
-  happy = Math.round(happy*10);
-  speed = Math.round(speed*10);
+  happy = Math.round(happy * 10);
+  speed = Math.round(speed * 10);
 
   console.log("Happiness factor (0-1): " + await metrics(id, access_token, "happiness"));
   console.log("Speed factor (0-1): " + await metrics(id, access_token, "any"));
@@ -190,20 +190,20 @@ app.post('/search', async(req, res) => {
 });
 
 
-async function metrics(id, access_token, type){
+async function metrics(id, access_token, type) {
   let url = new URL('https://api.spotify.com/v1/audio-features/' + id);
 
   const attributes = await fetch(url.href, {
     method: 'get',
-    headers: { 'Content-Type': 'application/json' , 'Authorization' : 'Bearer ' + access_token},
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + access_token },
   })
 
   const attributesJson = await attributes.json();
 
-  if (type === "happiness"){ 
+  if (type === "happiness") {
     return await attributesJson.valence;
   } else {
-    return await ((attributesJson.danceability + attributesJson.energy)/ 2);
+    return await ((attributesJson.danceability + attributesJson.energy) / 2);
   }
 }
 
@@ -280,7 +280,7 @@ function getLinkFromDict(happy, speed) {
     } else {
       return ('http://111111111111111111111111111111111111111111111111111111111111.com/');
     }
-    
+
   } else if (speed >= 2) {
     if (happy >= 10) {
       return ('http://www.electricboogiewoogie.com/');
@@ -305,7 +305,7 @@ function getLinkFromDict(happy, speed) {
     } else {
       return ('http://beesbeesbees.com/');
     }
-    
+
   } else {
     if (happy >= 10) {
       return ('http://stars.chromeexperiments.com/');
