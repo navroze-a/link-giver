@@ -171,32 +171,166 @@ app.post('/search', async(req, res) => {
   console.log("id: " + topTrackJson.tracks.items[0].id);
   console.log("name:" + topTrackJson.tracks.items[0].name);
   let id = topTrackJson.tracks.items[0].id;
-  metrics(id, access_token);
+ 
+  let happy = await metrics(id, access_token, "happiness");
+  let speed = await metrics(id, access_token, "speed");
+
+  happy = Math.round(happy*10);
+  speed = Math.round(speed*10);
+
+  console.log("Happiness factor (0-1): " + await metrics(id, access_token, "happiness"));
+  console.log("Speed factor (0-1): " + await metrics(id, access_token, "any"));
+  console.log("Happiness factor (0-10): " + happy);
+  console.log("Speed factor (0-10): " + speed);
+
+  let link = getLinkFromDict(happy, speed);
+  console.log(link);
+
+  setTimeout(res.redirect(link), 2000);
 });
 
 
-async function metrics(id, access_token){
+async function metrics(id, access_token, type){
   let url = new URL('https://api.spotify.com/v1/audio-features/' + id);
 
   const attributes = await fetch(url.href, {
     method: 'get',
     headers: { 'Content-Type': 'application/json' , 'Authorization' : 'Bearer ' + access_token},
-})
+  })
 
-const attributesJson = await attributes.json();
-console.log(attributesJson);
+  const attributesJson = await attributes.json();
 
+  if (type === "happiness"){ 
+    return await attributesJson.valence;
+  } else {
+    return await ((attributesJson.danceability + attributesJson.energy)/ 2);
+  }
 }
 
-async function produceLinkVector(attributes_json_format) {
-  let danceability = attributes_json_format.danceability;
-  let energy = attributes_json_format.energy;
-  let mode = attributes_json_format.mode;
-  let tempo = attributes_json_format.tempo;
-  let valence = attributes_json_format.valence;
-
-  // make vectors here!
-
+function getLinkFromDict(happy, speed) {
+  if (speed >= 8) {
+    if (happy >= 10) {
+      return ('https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO');
+    } else if (happy >= 9) {
+      return ('https://www.youtube.com/watch?v=4DcGBE-F9hk');
+    } else if (happy >= 8) {
+      return ('https://www.youtube.com/watch?v=4DcGBE-F9hk');
+    } else if (happy >= 7) {
+      return ('http://experiencecornelius.com/');
+    } else if (happy >= 6) {
+      return ('http://www.theonion.com/');
+    } else if (happy >= 5) {
+      return ('https://www.coolmathgames.com/0-worlds-hardest-game');
+    } else if (happy >= 4) {
+      return ('https://www.youtube.com/watch?v=h8ctkfSx6R0');
+    } else if (happy >= 3) {
+      return ('https://zoomquilt.org/');
+    } else if (happy >= 2) {
+      return ('https://www.youtube.com/watch?v=8arOzjb9aFQ');
+    } else if (happy >= 1) {
+      return ('http://www.intotime.com/');
+    } else {
+      return ('https://screamintothevoid.com/');
+    }
+  } else if (speed >= 6) {
+    if (happy >= 10) {
+      return ('https://www.staggeringbeauty.com/');
+    } else if (happy >= 9) {
+      return ('https://www.youtube.com/watch?v=cpBrAS168Jo');
+    } else if (happy >= 8) {
+      return ('https://quickdraw.withgoogle.com/');
+    } else if (happy >= 7) {
+      return ('http://www.republiquedesmangues.fr/');
+    } else if (happy >= 6) {
+      return ('http://www.slither.io/');
+    } else if (happy >= 5) {
+      return ('https://en.wikipedia.org/wiki/List_of_conspiracy_theories');
+    } else if (happy >= 4) {
+      return ('https://www.coolmathgames.com/0-run');
+    } else if (happy >= 3) {
+      return ('https://thisissand.com/');
+    } else if (happy >= 2) {
+      return ('https://freerice.com/');
+    } else if (happy >= 1) {
+      return ('https://www.google.com/doodles/john-venns-180th-birthday');
+    } else {
+      return ('http://dontevenreply.com/');
+    }
+  } else if (speed >= 4) {
+    if (happy >= 10) {
+      return ('http://theofficestaremachine.com/');
+    } else if (happy >= 9) {
+      return ('http://www.rrrgggbbb.com/');
+    } else if (happy >= 8) {
+      return ('http://littlealchemy.com/');
+    } else if (happy >= 7) {
+      return ('https://www.pointerpointer.com/');
+    } else if (happy >= 6) {
+      return ('http://www.incredibox.com/');
+    } else if (happy >= 5) {
+      return ('https://www.boredbutton.com/');
+    } else if (happy >= 4) {
+      return ('https://uselessfacts.net/');
+    } else if (happy >= 3) {
+      return ('https://www.poptropica.com/');
+    } else if (happy >= 2) {
+      return ('https://food.unl.edu/newsletters/images/assorted-dry-beans.png');
+    } else if (happy >= 1) {
+      return ('https://www.youtube.com/watch?v=8RZfZ3qpAMk');
+    } else {
+      return ('http://111111111111111111111111111111111111111111111111111111111111.com/');
+    }
+    
+  } else if (speed >= 2) {
+    if (happy >= 10) {
+      return ('http://www.electricboogiewoogie.com/');
+    } else if (happy >= 9) {
+      return ('https://en.akinator.com/');
+    } else if (happy >= 8) {
+      return ('http://www.kanyezone.com/');
+    } else if (happy >= 7) {
+      return ('https://isitchristmas.com/');
+    } else if (happy >= 6) {
+      return ('http://hackertyper.com/');
+    } else if (happy >= 5) {
+      return ('https://www.music-map.com/');
+    } else if (happy >= 4) {
+      return ('https://www.astrology-zodiac-signs.com/');
+    } else if (happy >= 3) {
+      return ('http://flashbynight.com/drench/');
+    } else if (happy >= 2) {
+      return ('http://www.laughfactory.com/jokes/latest-jokes');
+    } else if (happy >= 1) {
+      return ('http://1000.chromeexperiments.com/#/experiment/canopy');
+    } else {
+      return ('http://beesbeesbees.com/');
+    }
+    
+  } else {
+    if (happy >= 10) {
+      return ('http://stars.chromeexperiments.com/');
+    } else if (happy >= 9) {
+      return ('https://explore.org/livecams/cats/kitten-rescue-cam');
+    } else if (happy >= 8) {
+      return ('https://www.buzzfeed.com/marthaharrietlewis/pick-some-pantone-colours-and-well-guess-your-aes-7gem36xaby');
+    } else if (happy >= 7) {
+      return ('https://www.howmanypeopleareinspacerightnow.com/');
+    } else if (happy >= 6) {
+      return ('https://coolors.co/');
+    } else if (happy >= 5) {
+      return ('https://asoftmurmur.com/');
+    } else if (happy >= 4) {
+      return ('https://www.onemotion.com/fold-cut-paper/');
+    } else if (happy >= 3) {
+      return ('https://www.howstuffworks.com/');
+    } else if (happy >= 2) {
+      return ('http://www.donothingfor2minutes.com/');
+    } else if (happy >= 1) {
+      return ('https://www.developgoodhabits.com/uplifting-quotes/');
+    } else {
+      return ('https://blahtherapy.com/');
+    }
+  }
 }
 
 
